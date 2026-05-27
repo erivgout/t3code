@@ -281,6 +281,62 @@ export const CursorSettings = makeProviderSettingsSchema(
 );
 export type CursorSettings = typeof CursorSettings.Type;
 
+export const CortexSettings = makeProviderSettingsSchema(
+  {
+    enabled: Schema.Boolean.pipe(
+      Schema.withDecodingDefault(Effect.succeed(false)),
+      Schema.annotateKey({ providerSettingsForm: { hidden: true } }),
+    ),
+    binaryPath: makeBinaryPathSetting("cortex").pipe(
+      Schema.annotateKey({
+        title: "Binary path",
+        description: "Path to the Snowflake Cortex Code CLI.",
+        providerSettingsForm: { placeholder: "cortex", clearWhenEmpty: "omit" },
+      }),
+    ),
+    connectionName: TrimmedString.pipe(
+      Schema.withDecodingDefault(Effect.succeed("")),
+      Schema.annotateKey({
+        title: "Snowflake connection",
+        description:
+          "Connection name passed to `cortex acp serve -c`. Leave blank to use Cortex Code's default connection setting.",
+        providerSettingsForm: {
+          placeholder: "my_connection",
+          clearWhenEmpty: "omit",
+        },
+      }),
+    ),
+    defaultModel: TrimmedString.pipe(
+      Schema.withDecodingDefault(Effect.succeed("")),
+      Schema.annotateKey({
+        title: "Default model",
+        description: "Optional model passed to `cortex acp serve -m` when the session starts.",
+        providerSettingsForm: {
+          placeholder: "auto",
+          clearWhenEmpty: "omit",
+        },
+      }),
+    ),
+    bypass: Schema.Boolean.pipe(
+      Schema.withDecodingDefault(Effect.succeed(false)),
+      Schema.annotateKey({
+        title: "Bypass approvals",
+        description:
+          "Start Cortex Code with `--bypass`. Only enable this when you deliberately want Snowflake to auto-approve tool calls.",
+        providerSettingsForm: { control: "switch" },
+      }),
+    ),
+    customModels: Schema.Array(Schema.String).pipe(
+      Schema.withDecodingDefault(Effect.succeed([])),
+      Schema.annotateKey({ providerSettingsForm: { hidden: true } }),
+    ),
+  },
+  {
+    order: ["binaryPath", "connectionName", "defaultModel", "bypass"],
+  },
+);
+export type CortexSettings = typeof CortexSettings.Type;
+
 export const OpenCodeSettings = makeProviderSettingsSchema(
   {
     enabled: Schema.Boolean.pipe(
@@ -369,6 +425,7 @@ export const ServerSettings = Schema.Struct({
     codex: CodexSettings.pipe(Schema.withDecodingDefault(Effect.succeed({}))),
     claudeAgent: ClaudeSettings.pipe(Schema.withDecodingDefault(Effect.succeed({}))),
     cursor: CursorSettings.pipe(Schema.withDecodingDefault(Effect.succeed({}))),
+    cortex: CortexSettings.pipe(Schema.withDecodingDefault(Effect.succeed({}))),
     opencode: OpenCodeSettings.pipe(Schema.withDecodingDefault(Effect.succeed({}))),
   }).pipe(Schema.withDecodingDefault(Effect.succeed({}))),
   // New driver-agnostic instance map. Keyed by `ProviderInstanceId`; values
@@ -437,6 +494,15 @@ const CursorSettingsPatch = Schema.Struct({
   customModels: Schema.optionalKey(Schema.Array(Schema.String)),
 });
 
+const CortexSettingsPatch = Schema.Struct({
+  enabled: Schema.optionalKey(Schema.Boolean),
+  binaryPath: Schema.optionalKey(TrimmedString),
+  connectionName: Schema.optionalKey(TrimmedString),
+  defaultModel: Schema.optionalKey(TrimmedString),
+  bypass: Schema.optionalKey(Schema.Boolean),
+  customModels: Schema.optionalKey(Schema.Array(Schema.String)),
+});
+
 const OpenCodeSettingsPatch = Schema.Struct({
   enabled: Schema.optionalKey(Schema.Boolean),
   binaryPath: Schema.optionalKey(TrimmedString),
@@ -463,6 +529,7 @@ export const ServerSettingsPatch = Schema.Struct({
       codex: Schema.optionalKey(CodexSettingsPatch),
       claudeAgent: Schema.optionalKey(ClaudeSettingsPatch),
       cursor: Schema.optionalKey(CursorSettingsPatch),
+      cortex: Schema.optionalKey(CortexSettingsPatch),
       opencode: Schema.optionalKey(OpenCodeSettingsPatch),
     }),
   ),

@@ -123,6 +123,14 @@ function createBaseServerConfig(): ServerConfig {
           launchArgs: "",
         },
         cursor: { enabled: true, binaryPath: "", apiEndpoint: "", customModels: [] },
+        cortex: {
+          enabled: false,
+          binaryPath: "",
+          connectionName: "",
+          defaultModel: "",
+          bypass: false,
+          customModels: [],
+        },
         opencode: {
           enabled: true,
           binaryPath: "",
