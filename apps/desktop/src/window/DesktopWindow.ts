@@ -267,10 +267,10 @@ const make = Effect.gen(function* () {
       );
     });
 
-    const revealSubscribers: RevealSubscription[] = [(fire) => window.once("ready-to-show", fire)];
-    if (process.platform === "linux") {
-      revealSubscribers.push((fire) => window.webContents.once("did-finish-load", fire));
-    }
+    const revealSubscribers: RevealSubscription[] = [
+      (fire) => window.once("ready-to-show", fire),
+      (fire) => window.webContents.once("did-finish-load", fire),
+    ];
     bindFirstRevealTrigger(revealSubscribers, () => {
       void runPromise(electronWindow.reveal(window));
     });

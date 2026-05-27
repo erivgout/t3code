@@ -59,7 +59,7 @@ type ServerAuthGateState =
 
 let bootstrapPromise: Promise<ServerAuthGateState> | null = null;
 let resolvedAuthenticatedGateState: ServerAuthGateState | null = null;
-const AUTH_SESSION_ESTABLISH_TIMEOUT_MS = 30_000;
+const AUTH_SESSION_ESTABLISH_TIMEOUT_MS = 2_000;
 const AUTH_SESSION_ESTABLISH_STEP_MS = 100;
 
 export function peekPairingTokenFromUrl(): string | null {
@@ -187,7 +187,7 @@ async function waitForAuthenticatedSessionAfterBootstrap(): Promise<AuthSessionS
 }
 
 const TRANSIENT_BOOTSTRAP_STATUS_CODES = new Set([502, 503, 504]);
-const BOOTSTRAP_RETRY_TIMEOUT_MS = 30_000;
+const BOOTSTRAP_RETRY_TIMEOUT_MS = 15_000;
 const BOOTSTRAP_RETRY_STEP_MS = 500;
 
 export async function retryTransientBootstrap<T>(operation: () => Promise<T>): Promise<T> {

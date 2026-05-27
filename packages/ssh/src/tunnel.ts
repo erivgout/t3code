@@ -50,11 +50,11 @@ import {
 
 export const DEFAULT_REMOTE_PORT = 3773;
 const REMOTE_PORT_SCAN_WINDOW = 200;
-const SSH_READY_TIMEOUT_MS = 30_000;
-const SSH_READY_PROBE_TIMEOUT_MS = 30_000;
+const SSH_READY_TIMEOUT_MS = 20_000;
+const SSH_READY_PROBE_TIMEOUT_MS = 1_000;
 const TUNNEL_SHUTDOWN_TIMEOUT_MS = 2_000;
-const REMOTE_READY_TIMEOUT_MS = 30_000;
-const REMOTE_REUSE_READY_TIMEOUT_MS = 30_000;
+const REMOTE_READY_TIMEOUT_MS = 15_000;
+const REMOTE_REUSE_READY_TIMEOUT_MS = 2_000;
 
 export interface RemoteT3RunnerOptions {
   readonly packageSpec?: string;
@@ -860,7 +860,7 @@ const readRemoteServerLogTail = Effect.fn("ssh/tunnel.readRemoteServerLogTail")(
   const result = yield* runSshCommand(target, {
     remoteCommandArgs: ["sh", "-s"],
     stdin: buildRemoteLogTailScript(target),
-    timeoutMs: 30_000,
+    timeoutMs: 10_000,
     ...(input?.authSecret === undefined ? {} : { authSecret: input.authSecret }),
     ...(input?.batchMode === undefined ? {} : { batchMode: input.batchMode }),
     ...(input?.interactiveAuth === undefined ? {} : { interactiveAuth: input.interactiveAuth }),
@@ -1594,7 +1594,7 @@ const makeSshEnvironmentManager = Effect.fn("ssh/tunnel.SshEnvironmentManager.ma
         remotePort: entry.remotePort,
       });
       const readinessExit = yield* Effect.exit(
-        waitForHttpReady({ baseUrl: entry.httpBaseUrl, timeoutMs: 30_000 }),
+        waitForHttpReady({ baseUrl: entry.httpBaseUrl, timeoutMs: 2_000 }),
       );
       if (Exit.isSuccess(readinessExit)) {
         yield* Effect.logDebug("ssh.environment.tunnel.reused", {

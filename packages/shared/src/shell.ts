@@ -86,7 +86,7 @@ export function readPathFromLaunchctl(
     return trimNonEmpty(
       execFile("/bin/launchctl", ["getenv", "PATH"], {
         encoding: "utf8",
-        timeout: 30_000,
+        timeout: 2000,
       }),
     );
   } catch {
@@ -195,7 +195,7 @@ export const readEnvironmentFromLoginShell: ShellEnvironmentReader = (
 
   const output = execFile(shell, ["-ilc", buildEnvironmentCaptureCommand(names)], {
     encoding: "utf8",
-    timeout: 30_000,
+    timeout: 5000,
   });
 
   const environment: Partial<Record<string, string>> = {};
@@ -250,7 +250,7 @@ export function readEnvironmentFromWindowsShell(
   ];
   for (const shell of WINDOWS_SHELL_CANDIDATES) {
     try {
-      const output = execFile(shell, args, { encoding: "utf8", timeout: 30_000 });
+      const output = execFile(shell, args, { encoding: "utf8", timeout: 5000 });
 
       const environment: Partial<Record<string, string>> = {};
       for (const name of names) {

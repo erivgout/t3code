@@ -98,7 +98,7 @@ export const layer = Layer.effect(
           command: executable,
           args: versionArgs,
           cwd: config.cwd,
-          timeoutMs: 30_000,
+          timeoutMs: 5_000,
           maxOutputBytes: 8_000,
           appendTruncationMarker: true,
         })

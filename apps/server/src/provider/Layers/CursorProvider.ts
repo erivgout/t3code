@@ -53,8 +53,8 @@ const EMPTY_CAPABILITIES: ModelCapabilities = createModelCapabilities({
   optionDescriptors: [],
 });
 
-const CURSOR_ACP_MODEL_DISCOVERY_TIMEOUT_MS = 60_000;
-const CURSOR_ACP_MODEL_CAPABILITY_TIMEOUT = "30 seconds";
+const CURSOR_ACP_MODEL_DISCOVERY_TIMEOUT_MS = 15_000;
+const CURSOR_ACP_MODEL_CAPABILITY_TIMEOUT = "4 seconds";
 const CURSOR_ACP_MODEL_DISCOVERY_CONCURRENCY = 4;
 const CURSOR_PARAMETERIZED_MODEL_PICKER_MIN_VERSION_DATE = 2026_04_08;
 export const CURSOR_PARAMETERIZED_MODEL_PICKER_CAPABILITIES = {
@@ -695,7 +695,7 @@ export function getCursorFallbackModels(
 }
 
 /** Timeout for `agent about` — it's slower than a simple `--version` probe. */
-const ABOUT_TIMEOUT_MS = 30_000;
+const ABOUT_TIMEOUT_MS = 8_000;
 
 /** Strip ANSI escape sequences so we can parse plain key-value lines. */
 function stripAnsi(text: string): string {

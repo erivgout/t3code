@@ -13,7 +13,7 @@ import * as Schema from "effect/Schema";
 import { HttpClient, HttpClientRequest } from "effect/unstable/http";
 
 const LATEST_VERSION_CACHE_TTL_MS = 60 * 60 * 1_000;
-const LATEST_VERSION_TIMEOUT_MS = 30_000;
+const LATEST_VERSION_TIMEOUT_MS = 4_000;
 const PROVIDER_UPDATE_ACTION_TOAST_MESSAGE = "Install the update now or review provider settings.";
 
 export interface ProviderMaintenanceCapabilities {

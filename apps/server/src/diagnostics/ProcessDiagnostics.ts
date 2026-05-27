@@ -26,7 +26,7 @@ export interface ProcessRow {
   readonly command: string;
 }
 
-const PROCESS_QUERY_TIMEOUT_MS = 30_000;
+const PROCESS_QUERY_TIMEOUT_MS = 1_000;
 const POSIX_PROCESS_QUERY_COMMAND = "pid=,ppid=,pgid=,stat=,pcpu=,rss=,etime=,command=";
 const PROCESS_QUERY_MAX_OUTPUT_BYTES = 2 * 1024 * 1024;
 
