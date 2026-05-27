@@ -38,7 +38,7 @@ const CORTEX_PRESENTATION = {
 const EMPTY_CAPABILITIES: ModelCapabilities = createModelCapabilities({
   optionDescriptors: [],
 });
-const CORTEX_ACP_MODEL_DISCOVERY_TIMEOUT_MS = 15_000;
+const CORTEX_ACP_MODEL_DISCOVERY_TIMEOUT_MS = 60_000;
 const HEALTH_CHECK_TIMEOUT_MS = 30_000;
 
 interface CortexSessionSelectOption {
