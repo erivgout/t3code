@@ -347,7 +347,7 @@ function claudeAuthMetadata(input: {
 
 // ── SDK capability probe ────────────────────────────────────────────
 
-const CAPABILITIES_PROBE_TIMEOUT_MS = 8_000;
+const CAPABILITIES_PROBE_TIMEOUT_MS = 30_000;
 
 function nonEmptyProbeString(value: string): string | undefined {
   const candidate = value.trim();

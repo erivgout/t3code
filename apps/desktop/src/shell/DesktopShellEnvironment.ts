@@ -39,8 +39,8 @@ const LOGIN_SHELL_ENV_NAMES = [
 ] as const;
 const WINDOWS_PROFILE_ENV_NAMES = ["PATH", "FNM_DIR", "FNM_MULTISHELL_PATH"] as const;
 const WINDOWS_SHELL_CANDIDATES = ["pwsh.exe", "powershell.exe"] as const;
-const LOGIN_SHELL_TIMEOUT = Duration.seconds(5);
-const LAUNCHCTL_TIMEOUT = Duration.seconds(2);
+const LOGIN_SHELL_TIMEOUT = Duration.seconds(30);
+const LAUNCHCTL_TIMEOUT = Duration.seconds(30);
 const PROCESS_TERMINATE_GRACE = Duration.seconds(1);
 
 const trimNonEmpty = (value: string | null | undefined): Option.Option<string> =>

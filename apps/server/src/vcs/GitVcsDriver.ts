@@ -365,7 +365,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
       ["rev-parse", "--is-inside-work-tree"],
       {
         allowNonZeroExit: true,
-        timeoutMs: 5_000,
+        timeoutMs: 30_000,
         maxOutputBytes: 4_096,
       },
     ).pipe(Effect.map((result) => result.exitCode === 0 && result.stdout.trim() === "true"));
@@ -423,7 +423,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
       ],
       {
         allowNonZeroExit: true,
-        timeoutMs: 20_000,
+        timeoutMs: 30_000,
         maxOutputBytes: WORKSPACE_FILES_MAX_OUTPUT_BYTES,
         appendTruncationMarker: true,
       },
@@ -459,7 +459,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
         ["remote", "-v"],
         {
           allowNonZeroExit: true,
-          timeoutMs: 5_000,
+          timeoutMs: 30_000,
           maxOutputBytes: 64 * 1024,
         },
       );
@@ -515,7 +515,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
         {
           stdin: `${chunk.join("\0")}\0`,
           allowNonZeroExit: true,
-          timeoutMs: 20_000,
+          timeoutMs: 30_000,
           maxOutputBytes: WORKSPACE_FILES_MAX_OUTPUT_BYTES,
           appendTruncationMarker: true,
         },
@@ -545,7 +545,7 @@ export const makeVcsDriverShape = Effect.fn("makeGitVcsDriverShape")(function* (
 
   const initRepository: VcsDriver.VcsDriverShape["initRepository"] = (input) =>
     gitCommand(vcsProcess, "GitVcsDriver.initRepository", input.cwd, ["init"], {
-      timeoutMs: 10_000,
+      timeoutMs: 30_000,
       maxOutputBytes: 64 * 1024,
     }).pipe(Effect.asVoid);
 

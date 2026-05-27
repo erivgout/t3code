@@ -619,7 +619,9 @@ const createBuildConfig = Effect.fn("createBuildConfig")(function* (
     if (signed) {
       winConfig.azureSignOptions = yield* AzureTrustedSigningOptionsConfig;
     } else {
-      winConfig.signAndEditExecutable = false;
+      // Keep resource editing enabled for unsigned local builds so the packaged
+      // app gets the branded Windows icon instead of Electron's default icon.
+      winConfig.signAndEditExecutable = true;
     }
     buildConfig.win = winConfig;
   }

@@ -38,7 +38,7 @@ const RANGE_COMMIT_SUMMARY_MAX_OUTPUT_BYTES = 19_000;
 const RANGE_DIFF_SUMMARY_MAX_OUTPUT_BYTES = 19_000;
 const RANGE_DIFF_PATCH_MAX_OUTPUT_BYTES = 59_000;
 const STATUS_UPSTREAM_REFRESH_INTERVAL = Duration.seconds(15);
-const STATUS_UPSTREAM_REFRESH_TIMEOUT = Duration.seconds(5);
+const STATUS_UPSTREAM_REFRESH_TIMEOUT = Duration.seconds(30);
 const STATUS_UPSTREAM_REFRESH_FAILURE_COOLDOWN = Duration.seconds(5);
 const STATUS_UPSTREAM_REFRESH_CACHE_CAPACITY = 2_048;
 const STATUS_UPSTREAM_REFRESH_ENV = Object.freeze({
@@ -812,7 +812,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
       ["show-ref", "--verify", "--quiet", `refs/heads/${refName}`],
       {
         allowNonZeroExit: true,
-        timeoutMs: 5_000,
+        timeoutMs: 30_000,
       },
     ).pipe(Effect.map((result) => result.exitCode === 0));
 
@@ -1135,7 +1135,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
         "refs/remotes",
       ],
       {
-        timeoutMs: 15_000,
+        timeoutMs: 30_000,
         allowNonZeroExit: true,
       },
     );
@@ -1646,7 +1646,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
         input.cwd,
         ["branch", "--no-color", "--no-column"],
         {
-          timeoutMs: 10_000,
+          timeoutMs: 30_000,
           allowNonZeroExit: true,
         },
       ).pipe(
@@ -1685,7 +1685,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
         input.cwd,
         ["branch", "--no-color", "--no-column", "--remotes"],
         {
-          timeoutMs: 10_000,
+          timeoutMs: 30_000,
           allowNonZeroExit: true,
         },
       ).pipe(
@@ -1709,7 +1709,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
         input.cwd,
         ["remote"],
         {
-          timeoutMs: 5_000,
+          timeoutMs: 30_000,
           allowNonZeroExit: true,
         },
       ).pipe(
@@ -1736,7 +1736,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
               input.cwd,
               ["symbolic-ref", "refs/remotes/origin/HEAD"],
               {
-                timeoutMs: 5_000,
+                timeoutMs: 30_000,
                 allowNonZeroExit: true,
               },
             ),
@@ -1745,7 +1745,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
               input.cwd,
               ["worktree", "list", "--porcelain"],
               {
-                timeoutMs: 5_000,
+                timeoutMs: 30_000,
                 allowNonZeroExit: true,
               },
             ),
@@ -1961,7 +1961,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
     }
     args.push(input.path);
     yield* executeGit("GitVcsDriver.removeWorktree", input.cwd, args, {
-      timeoutMs: 15_000,
+      timeoutMs: 30_000,
       fallbackErrorMessage: "git worktree remove failed",
     }).pipe(
       Effect.mapError((error) =>
@@ -1988,7 +1988,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
         input.cwd,
         ["branch", "-m", "--", input.oldBranch, targetBranch],
         {
-          timeoutMs: 10_000,
+          timeoutMs: 30_000,
           fallbackErrorMessage: "git branch rename failed",
         },
       );
@@ -2006,7 +2006,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
             input.cwd,
             ["show-ref", "--verify", "--quiet", `refs/heads/${input.refName}`],
             {
-              timeoutMs: 5_000,
+              timeoutMs: 30_000,
               allowNonZeroExit: true,
             },
           ).pipe(Effect.map((result) => result.exitCode === 0)),
@@ -2015,7 +2015,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
             input.cwd,
             ["show-ref", "--verify", "--quiet", `refs/remotes/${input.refName}`],
             {
-              timeoutMs: 5_000,
+              timeoutMs: 30_000,
               allowNonZeroExit: true,
             },
           ).pipe(Effect.map((result) => result.exitCode === 0)),
@@ -2029,7 +2029,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
             input.cwd,
             ["for-each-ref", "--format=%(refname:short)\t%(upstream:short)", "refs/heads"],
             {
-              timeoutMs: 5_000,
+              timeoutMs: 30_000,
               allowNonZeroExit: true,
             },
           ).pipe(
@@ -2049,7 +2049,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
               input.cwd,
               ["show-ref", "--verify", "--quiet", `refs/heads/${localTrackedBranchCandidate}`],
               {
-                timeoutMs: 5_000,
+                timeoutMs: 30_000,
                 allowNonZeroExit: true,
               },
             ).pipe(Effect.map((result) => result.exitCode === 0))
@@ -2066,7 +2066,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
               : ["checkout", input.refName];
 
       yield* executeGit("GitVcsDriver.switchRef.checkout", input.cwd, checkoutArgs, {
-        timeoutMs: 10_000,
+        timeoutMs: 30_000,
         fallbackErrorMessage: "git checkout failed",
       });
 
@@ -2082,7 +2082,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
   const createRef: GitVcsDriver.GitVcsDriverShape["createRef"] = Effect.fn("createRef")(
     function* (input) {
       yield* executeGit("GitVcsDriver.createRef", input.cwd, ["branch", input.refName], {
-        timeoutMs: 10_000,
+        timeoutMs: 30_000,
         fallbackErrorMessage: "git branch create failed",
       });
       if (input.switchRef) {
@@ -2095,7 +2095,7 @@ export const makeGitVcsDriverCore = Effect.fn("makeGitVcsDriverCore")(function* 
 
   const initRepo: GitVcsDriver.GitVcsDriverShape["initRepo"] = (input) =>
     executeGit("GitVcsDriver.initRepo", input.cwd, ["init"], {
-      timeoutMs: 10_000,
+      timeoutMs: 30_000,
       fallbackErrorMessage: "git init failed",
     }).pipe(Effect.asVoid);
 

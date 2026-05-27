@@ -137,7 +137,7 @@ function probeCli(input: {
       command: input.spec.executable,
       args: input.spec.versionArgs,
       cwd: input.cwd,
-      timeoutMs: 5_000,
+      timeoutMs: 30_000,
       maxOutputBytes: 8_000,
       appendTruncationMarker: true,
     })
@@ -214,7 +214,7 @@ export function probeSourceControlProvider(input: {
           args: spec.authArgs,
           cwd: input.cwd,
           allowNonZeroExit: true,
-          timeoutMs: 5_000,
+          timeoutMs: 30_000,
           maxOutputBytes: 8_000,
           appendTruncationMarker: true,
         })

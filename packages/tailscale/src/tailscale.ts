@@ -7,9 +7,9 @@ import { HttpClient, HttpClientRequest } from "effect/unstable/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process";
 
 export const DEFAULT_TAILSCALE_SERVE_PORT = 443;
-export const TAILSCALE_STATUS_TIMEOUT_MS = 1_500;
-export const TAILSCALE_SERVE_TIMEOUT_MS = 10_000;
-export const TAILSCALE_PROBE_TIMEOUT_MS = 2_500;
+export const TAILSCALE_STATUS_TIMEOUT_MS = 30_000;
+export const TAILSCALE_SERVE_TIMEOUT_MS = 30_000;
+export const TAILSCALE_PROBE_TIMEOUT_MS = 30_000;
 
 export class TailscaleCommandError extends Data.TaggedError("TailscaleCommandError")<{
   readonly command: readonly string[];
