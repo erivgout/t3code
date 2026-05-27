@@ -125,6 +125,7 @@ export const CortexDriver: ProviderDriver<CortexSettings, CortexDriverEnv> = {
         initialSnapshot: (settings) =>
           buildInitialCortexProviderSnapshot(settings).pipe(Effect.map(stampIdentity)),
         checkProvider,
+        refreshOnStart: false,
         refreshInterval: SNAPSHOT_REFRESH_INTERVAL,
       }).pipe(
         Effect.mapError(
