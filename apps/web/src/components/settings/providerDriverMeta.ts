@@ -7,7 +7,7 @@ import {
   ProviderDriverKind,
 } from "@t3tools/contracts";
 import type * as Schema from "effect/Schema";
-import { ACPRegistryIcon, ClaudeAI, CursorIcon, type Icon, OpenAI, OpenCodeIcon } from "../Icons";
+import { ClaudeAI, CursorIcon, type Icon, OpenAI, OpenCodeIcon, SnowflakeIcon } from "../Icons";
 
 type ProviderSettingsSchema = {
   readonly fields: Readonly<Record<string, Schema.Top>>;
@@ -57,7 +57,7 @@ export const PROVIDER_CLIENT_DEFINITIONS: readonly ProviderClientDefinition[] = 
   {
     value: ProviderDriverKind.make("cortex"),
     label: "Cortex Code",
-    icon: ACPRegistryIcon,
+    icon: SnowflakeIcon,
     badgeLabel: "Preview",
     settingsSchema: CortexSettings,
   },

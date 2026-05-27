@@ -15,6 +15,12 @@ export const GitHubIcon: Icon = (props) => (
   </svg>
 );
 
+export const SnowflakeIcon: Icon = (props) => (
+  <svg {...props} viewBox="0 0 1566 1568" fill="none">
+    <image href="/provider-icons/snowflake-logo.png" width="1566" height="1568" />
+  </svg>
+);
+
 export const GitIcon: Icon = (props) => (
   <svg {...props} viewBox="0 0 256 256">
     <path
