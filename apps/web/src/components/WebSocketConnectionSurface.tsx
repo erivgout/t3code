@@ -54,7 +54,7 @@ function describeExhaustedToast(): string {
 }
 
 function getConnectionDisplayName(status: WsConnectionStatus): string {
-  return status.connectionLabel?.trim() || "T3 Server";
+  return status.connectionLabel?.trim() || "Kalsec Code Server";
 }
 
 function buildReconnectTitle(status: WsConnectionStatus): string {

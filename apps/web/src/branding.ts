@@ -5,7 +5,16 @@ function readInjectedDesktopAppBranding(): DesktopAppBranding | null {
     return null;
   }
 
-  return window.desktopBridge?.getAppBranding?.() ?? null;
+  const branding = window.desktopBridge?.getAppBranding?.() ?? null;
+  if (branding?.baseName !== "T3 Code") {
+    return branding;
+  }
+
+  return {
+    ...branding,
+    baseName: "Kalsec Code",
+    displayName: `Kalsec Code (${branding.stageLabel})`,
+  };
 }
 
 const injectedDesktopAppBranding = readInjectedDesktopAppBranding();
@@ -15,7 +24,7 @@ export const HOSTED_APP_CHANNEL =
   hostedAppChannel === "latest" || hostedAppChannel === "nightly" ? hostedAppChannel : null;
 export const HOSTED_APP_CHANNEL_LABEL =
   HOSTED_APP_CHANNEL === "nightly" ? "Nightly" : HOSTED_APP_CHANNEL === "latest" ? "Latest" : null;
-export const APP_BASE_NAME = injectedDesktopAppBranding?.baseName ?? "T3 Code";
+export const APP_BASE_NAME = injectedDesktopAppBranding?.baseName ?? "Kalsec Code";
 export const APP_STAGE_LABEL =
   injectedDesktopAppBranding?.stageLabel ??
   HOSTED_APP_CHANNEL_LABEL ??

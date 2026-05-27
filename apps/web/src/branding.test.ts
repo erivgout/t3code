@@ -14,7 +14,7 @@ afterEach(() => {
 });
 
 describe("branding", () => {
-  it("uses injected desktop branding when available", async () => {
+  it("normalizes upstream injected desktop branding for the Kalsec fork", async () => {
     Object.defineProperty(globalThis, "window", {
       configurable: true,
       value: {
@@ -30,9 +30,9 @@ describe("branding", () => {
 
     const branding = await import("./branding");
 
-    expect(branding.APP_BASE_NAME).toBe("T3 Code");
+    expect(branding.APP_BASE_NAME).toBe("Kalsec Code");
     expect(branding.APP_STAGE_LABEL).toBe("Nightly");
-    expect(branding.APP_DISPLAY_NAME).toBe("T3 Code (Nightly)");
+    expect(branding.APP_DISPLAY_NAME).toBe("Kalsec Code (Nightly)");
   });
 
   it("normalizes hosted app channel metadata", async () => {
@@ -43,7 +43,7 @@ describe("branding", () => {
     expect(branding.HOSTED_APP_CHANNEL).toBe("nightly");
     expect(branding.HOSTED_APP_CHANNEL_LABEL).toBe("Nightly");
     expect(branding.APP_STAGE_LABEL).toBe("Nightly");
-    expect(branding.APP_DISPLAY_NAME).toBe("T3 Code (Nightly)");
+    expect(branding.APP_DISPLAY_NAME).toBe("Kalsec Code (Nightly)");
   });
 
   it("ignores unknown hosted app channels", async () => {

@@ -211,7 +211,7 @@ export function buildInitialCortexProviderSnapshot(
           version: null,
           status: "warning",
           auth: { status: "unknown" },
-          message: "Cortex Code is disabled in T3 Code settings.",
+          message: "Cortex Code is disabled in Kalsec Code settings.",
         },
       });
     }
@@ -369,7 +369,7 @@ export const checkCortexProviderStatus = Effect.fn("checkCortexProviderStatus")(
         version: null,
         status: "warning",
         auth: { status: "unknown" },
-        message: "Cortex Code is disabled in T3 Code settings.",
+        message: "Cortex Code is disabled in Kalsec Code settings.",
       },
     });
   }
